@@ -297,8 +297,6 @@ var player = function() {
         
         // we change the text to show a neew message
         textMessage.innerHTML = 'Has ganado';
-        // setting the key to false
-        this.llave = false;
         // we will wait 3 seconds to change the text back to the first text
         setTimeout(() => {
             textMessage.innerHTML = 'recoge la llave';
@@ -344,6 +342,7 @@ var player = function() {
             // checing if we have the key
             if(this.llave == true) {
                 this.victory();
+                this.llave = false;
             } else {
                 textMessage.innerHTML = 'Te falta la llave';
             }
