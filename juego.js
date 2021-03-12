@@ -320,7 +320,7 @@ var player = function() {
         // telling the game that with the kill we lost the key
         this.llave = false;
         // put the key back to the original spot
-        gameField[2][4] = 4;
+        gameField[1][4] = 4;
         textMessage.innerHTML = 'recoge la llave';
     }
 
