@@ -294,17 +294,21 @@ var player = function() {
         
         // we set the door to the image with the door open
         gameField[3][15] = 3;
-        // we take our player bakc to the start point
-        this.x = 1;
-        this.y = 10;
+        
         // we change the text to show a neew message
         textMessage.innerHTML = 'Has ganado';
         // we will wait 3 seconds to change the text back to the first text
         setTimeout(() => {
             textMessage.innerHTML = 'recoge la llave';
+            // set the door to be closed again
+            gameField[3][15] = 2;
+            // place the key back to the starting point
+            gameField[2][4] = 4;
+            // we take our player bakc to the start point
+            this.x = 1;
+            this.y = 10;
         }, 3000);
-        // place the key back to the starting point
-        gameField[2][4] = 4;
+        
     }
 
     // dead, we are calling this function inside enemyCollision 

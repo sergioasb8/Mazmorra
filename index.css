@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+    text-align: center;
+}
 .canvas {
     width: 850px;
     height: 600px;
@@ -7,9 +11,10 @@
 }
 
 .containerText {
+    position: absolute;
     width: 30vw;
     height: 5vh;
-    margin-left: 10vw;
+    margin-left: 35vw;
     margin-top: 0vh;
     border-color: black;
     background-color: rgb(130, 130, 201);
