@@ -15,15 +15,20 @@ var brickbrown;
 var brickgrey;
 var doorClosed;
 var doorOpen;
+var key;
 var playerWalkOne;
 var playerWalkTwo;
 var playerWalkThree;
 var playerMeanOne;
 var PlayerMeanTwo;
 
+// Message Text
+let textMessage = document.getElementById('textMessage');
+let StartGame = document.getElementById('StartGame');
+
 var gameField = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], 
-    [1,1,0,1,0,0,1,1,1,1,0,0,1,1,0,1,1],
+    [1,1,0,1,4,0,1,1,1,1,0,0,1,1,0,1,1],
     [1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1],
     [1,1,0,1,1,0,0,0,1,1,0,1,0,1,0,2,1],
     [1,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1],
@@ -59,6 +64,11 @@ function Drawfield() {
 
             if(gameField[y][x] == 3) {
                 ctx.drawImage(doorOpen, x*widthF, y*heightF, widthF, heightF)
+            }
+
+            if(gameField[y][x] == 4) {
+                ctx.drawImage(brickgrey, x*widthF, y*heightF, widthF, heightF)
+                ctx.drawImage(key, x*widthF, y*heightF, widthF, heightF)
             }
         }
 
@@ -178,6 +188,8 @@ var player = function() {
     // giving the coordinates
     this.x = 1;
     this.y = 10;
+    // when the player needs to pick up the key this value wiil be false 
+    this.llave = false;
     
     // creating vars to make a delay inside the function to make a smooth movement
     this.delay = 7;
@@ -279,12 +291,20 @@ var player = function() {
 
     // victory fucntion will be called inside special functions when the conditions to win are met
     this.victory = function () {
-        console.log('Has ganado!');
-        // this.x = 1;
-        // this.y = 10;
+        
+        // we set the door to the image with the door open
         gameField[3][15] = 3;
+        // we take our player bakc to the start point
         this.x = 1;
         this.y = 10;
+        // we change the text to show a neew message
+        textMessage.innerHTML = 'Has ganado';
+        // we will wait 3 seconds to change the text back to the first text
+        setTimeout(() => {
+            textMessage.innerHTML = 'recoge la llave';
+        }, 3000);
+        // place the key back to the starting point
+        gameField[2][4] = 4;
     }
 
     // dead, we are calling this function inside enemyCollision 
@@ -293,6 +313,11 @@ var player = function() {
         // taking our player to the start point
         this.x = 1;
         this.y = 10;
+        // telling the game that with the kill we lost the key
+        this.llave = false;
+        // put the key back to the original spot
+        gameField[2][4] = 4;
+        textMessage.innerHTML = 'recoge la llave';
     }
 
     // specialFunctions will be the place where we will check the conditions to call a certain 
@@ -300,8 +325,22 @@ var player = function() {
     this.specialFunctions = function() {
         var objectPlace = gameField[this.y][this.x]; 
         
+        // getting the key
+        if(objectPlace == 4) {
+            // telling the game that we picked up the key
+            this.llave = true;
+            // changing the array to show only the nrick
+            gameField[this.y][this.x] = 0;
+            textMessage.innerHTML = 'Ve a la puerta';
+        }
+        // conditions to call the victory
         if(objectPlace == 2) {
-            this.victory();
+            // checing if we have the key
+            if(this.llave == true) {
+                this.victory();
+            } else {
+                textMessage.innerHTML = 'Te falta la llave';
+            }
         }
     }
 }
@@ -337,6 +376,9 @@ function Start() {
 
     doorOpen = new Image();
     doorOpen.src = './img/doorOpen.png';
+
+    key = new Image();
+    key.src = './img/key.png';
 
     playerMeanOne = new Image();
     playerMeanOne.src = './img/slimeGreen.png';
