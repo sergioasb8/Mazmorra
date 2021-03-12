@@ -303,7 +303,7 @@ var player = function() {
             // set the door to be closed again
             gameField[3][15] = 2;
             // place the key back to the starting point
-            gameField[2][4] = 4;
+            gameField[1][4] = 4;
             // we take our player bakc to the start point
             this.x = 1;
             this.y = 10;
